@@ -55,6 +55,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
     """
     query_set = Customer.objects.all()
     customer_id = self.request.query_params.get('customer_id')
+    
     if(customer_id is not None):
       query_set = query_set.filter(id = customer_id)
     return query_set
@@ -63,18 +64,68 @@ class FoodCategoryViewSet(viewsets.ModelViewSet):
   serializer_class = FoodCategorySerializer
   permission_classes = [permissions.AllowAny]
 
+  def get_queryset(self):
+    """
+    end point food_categories/id=skjdhgsd454
+    """
+    query_set = FoodCategory.objects.all()
+    id = self.request.query_params.get('id')
+    if(id is not None):
+      query_set = query_set.filter(id = id)
+    return query_set
+
 class MenuViewSet(viewsets.ModelViewSet):
   serializer_class = MenuSerializer
   permission_classes = [permissions.AllowAny]
+
+  def get_queryset(self):
+    """
+    end point menus/id=skjdhgsd454
+    """
+    query_set = Menu.objects.all()
+    id = self.request.query_params.get('id')
+    if(id is not None):
+      query_set = query_set.filter(id = id)
+    return query_set  
 
 class OrderViewSet(viewsets.ModelViewSet):
   serializer_class = OrderSerializer
   permission_classes = [permissions.AllowAny]
 
+  def get_queryset(self):
+    """
+    end point orders/id=skjdhgsd454
+    """
+    query_set = Order.objects.all()
+    id = self.request.query_params.get('id')
+    if(id is not None):
+      query_set = query_set.filter(id = id)
+    return query_set 
+
 class CommentViewSet(viewsets.ModelViewSet):
   serializer_class = CommentSerializer
   permission_classes = [permissions.AllowAny]
 
+  def get_queryset(self):
+    """
+    end point comments/id=skjdhgsd454
+    """
+    query_set = Comment.objects.all()
+    id = self.request.query_params.get('id')
+    if(id is not None):
+      query_set = query_set.filter(id = id)
+    return query_set 
+
 class UserScanViewSet(viewsets.ModelViewSet):
   serializer_class = UserScanSerializer
   permission_classes = [permissions.AllowAny]
+
+  def get_queryset(self):
+    """
+    end point user_scans/id=skjdhgsd454
+    """
+    query_set = UserScan.objects.all()
+    id = self.request.query_params.get('id')
+    if(id is not None):
+      query_set = query_set.filter(id = id)
+    return query_set 

@@ -20,13 +20,14 @@ class HotelAdmin(admin.ModelAdmin):
       "known_for",
       "rating",
       "open_time",
-      "close_time"
+      "close_time",
+      "account_create",
     ]
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
     list_display = [
       "id",
-      "auth_id"
+      "auth_id",
     ]
 
 @admin.register(FoodCategory)
@@ -49,10 +50,10 @@ class MenuAdmin(admin.ModelAdmin):
 class OrderAdmin(admin.ModelAdmin):
     list_display = [
       "id",
-      "order_from",
-      "order_to",
+      # "order_from",
+      # "order_to",
       "order_date_time",
-      "food",
+      # "food",
       "delivered_status"
     ]
 

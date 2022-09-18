@@ -69,6 +69,7 @@ class Customer(models.Model):
     max_length = 100,
     primary_key = True,
   )
+
   auth_id = models.CharField(
     verbose_name = ("Firebase auth id "),
     help_text = ("Required and Unique"),
@@ -104,61 +105,24 @@ class Menu(models.Model):
     max_length = 100,
     primary_key = True,
   )
+
   category = models.ForeignKey( 
       FoodCategory,
       related_name="menu",
       on_delete=models.CASCADE,
       verbose_name=("Food Category id"), 
   )
+
   name = models.CharField(
     verbose_name = ("Menu item name"),
     help_text = ("Required"),
     max_length = 100,
   )
+
   price = models.CharField(
     verbose_name = ("Menu Item price"),
     help_text = ("Required and Unique"),
     max_length = 100,
-  )
-class Order(models.Model):
-  id = models.CharField(
-    verbose_name = ("order id "),
-    help_text = ("Required and Unique"),
-    unique = True,
-    max_length = 100,
-    primary_key = True,
-  )
-  order_from = models.ForeignKey( 
-      Customer,
-      related_name="order_order_form",
-      on_delete=models.CASCADE,
-      verbose_name=("Ordered customer"), 
-  )
-
-  order_to = models.ForeignKey( 
-      Hotel,
-      related_name="order_order_to",
-      on_delete=models.CASCADE,
-      verbose_name=("Ordered Hotel"), 
-  )
-
-  order_date_time  = models.DateTimeField(
-    verbose_name=("Ordered at"),
-    auto_now_add=True,
-    editable = False
-  )
-
-  food = models.ForeignKey( 
-      Menu,
-      related_name="order_food",
-      on_delete=models.CASCADE,
-      verbose_name=("Ordered food item"), 
-  )
-
-  delivered_status = models.BooleanField(
-    verbose_name=("Served status"),
-    help_text=("True"),
-    default=False,
   )
 
 class Comment(models.Model):
@@ -173,7 +137,7 @@ class Comment(models.Model):
       Customer,
       related_name="comment_comment_from",
       on_delete=models.CASCADE,
-      verbose_name=("Comennt customer"), 
+      verbose_name=("Comment customer"), 
   )
 
   comment_to = models.ForeignKey( 
@@ -182,6 +146,7 @@ class Comment(models.Model):
       on_delete=models.CASCADE,
       verbose_name=("Comment Hotel"), 
   )
+  
   content = models.TextField(
     verbose_name= "Comment conent",
   )
@@ -192,8 +157,50 @@ class Comment(models.Model):
     editable = False
   )
 
+class Order(models.Model):
+  id = models.CharField(
+    verbose_name = ("order id "),
+    help_text = ("Required and Unique"),
+    unique = True,
+    max_length = 100,
+    primary_key = True,
+  )
+
+  order_from = models.ForeignKey( 
+      Customer,
+      related_name="customer_id",
+      on_delete=models.CASCADE,
+      verbose_name=("Ordered customer"), 
+  )
+
+  order_to = models.ForeignKey( 
+      Hotel,
+      related_name= "hotel_id",
+      on_delete=models.CASCADE,
+      verbose_name=("Ordered Hotel"), 
+  )
+
+  order_date_time  = models.DateTimeField(
+    verbose_name=("Ordered at"),
+    auto_now_add=True,
+    editable = False
+  )
+
+  # food = models.ForeignKey( 
+  #     Menu,
+  #     related_name="menu_id",
+  #     on_delete=models.CASCADE,
+  #     verbose_name=("Ordered food item"), 
+  # )
+
+  delivered_status = models.BooleanField(
+    verbose_name=("Served status"),
+    help_text=("True"),
+    default= False,
+  )
+
 class UserScan(models.Model):
-  id = models.UUIDField(
+  id = models.CharField(
     verbose_name = ("UserScan id "),
     help_text = ("Required and Unique"),
     unique = True,

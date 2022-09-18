@@ -14,40 +14,44 @@ from .models import(
 class HotelSerializer(serializers.ModelSerializer):
   class Meta:
     model = Hotel
-    fields = ["id","name","location","image_uri_id", "known_for","rating","open_time","close_time"]
+    fields = '__all__'
 
 class CustomerSerializer(serializers.ModelSerializer):
   class Meta:
-    modal = Customer 
-    fiels = ["id","auth_id"]
+    model = Customer 
+    fields = '__all__'
 
 class FoodCategorySerializer(serializers.ModelSerializer):
   class Meta:
-    modal = FoodCategory
-    fields =["id","c_name","image_uri_id"]
+    model = FoodCategory
+    fields = '__all__'
 
 class MenuSerializer(serializers.ModelSerializer):
   class Meta:
-    modal = Menu
-    fields =["id","category","name", "price"]
+    model = Menu
+    fields = '__all__'
+    depth = 2 
 
 class OrderSerializer(serializers.ModelSerializer):
-  order_from = CustomerSerializer(many = True, read_only = True)
-  order_to = HotelSerializer(many = True, read_only = True)
-  food = MenuSerializer(many = True, read_only = True)
+  # customer_id = CustomerSerializer(many = True, read_only = True)
+  # hotel_id = HotelSerializer(many = True, read_only = True)
+  # menu_id = MenuSerializer(many = True, read_only = True)
+  
   class Meta:
-    modal = Order
-    fields =["id","order_from","order_to","order_date_time","food","delivered_status"]
+    model = Order
+    fields = '__all__'
 
 class CommentSerializer(serializers.ModelSerializer):
-  comment_from = CustomerSerializer(many = True, read_only = True)
-  comment_to = HotelSerializer(many = True, read_only = True)
+  # comment_from = CustomerSerializer(many = True, read_only = True)
+  # comment_to = HotelSerializer(many = True, read_only = True)
   class Meta:
-    modal = Comment
-    fields =["id","comment_from","comment_to","content","date_time"]
+    model = Comment
+    # fields =["id","comment_from","comment_to","content","date_time"]
+    fields = '__all__' 
+    depth = 2 
 
 class UserScanSerializer(serializers.ModelSerializer):
   user_id = CustomerSerializer(many = True, read_only = True)
   class Meta:
-    modal = UserScan
+    model = UserScan
     fields =["id","scan_url","date_time","user_id"]
