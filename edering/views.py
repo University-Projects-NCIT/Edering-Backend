@@ -8,7 +8,7 @@ from datetime import datetime
 from django.db.models import Q
 
 from .serializers import(
-  HotelSerializer,
+  ProviderSerializer,
   CustomerSerializer,
   FoodCategorySerializer,
   MenuSerializer,
@@ -18,7 +18,7 @@ from .serializers import(
 )
 
 from .models import(
-  Hotel,
+  Provider,
   Customer,
   FoodCategory,
   Menu,
@@ -30,16 +30,16 @@ from .models import(
 class HomePageView(TemplateView):
   template_name = "index.html"
 
-class HotelViewSet(viewsets.ModelViewSet):
-  serializer_class = HotelSerializer
+class ProviderViewSet(viewsets.ModelViewSet):
+  serializer_class = ProviderSerializer
   permission_classes = [permissions.AllowAny]
 
   def get_queryset(self):
     """
-    end point hotel/hotel_id=skjdhgsd454
+    end point hotel/id=skjdhgsd454
     """
-    query_set = Hotel.objects.all()
-    hotel_id = self.request.query_params.get('hotel_id')
+    query_set = Provider.objects.all()
+    hotel_id = self.request.query_params.get('id')
     if(hotel_id is not None):
       query_set = query_set.filter(id = hotel_id)
     return query_set
@@ -51,10 +51,10 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
   def get_queryset(self):
     """
-    end point customer/customer_id=skjdhgsd454
+    end point customer/id=skjdhgsd454
     """
     query_set = Customer.objects.all()
-    customer_id = self.request.query_params.get('customer_id')
+    customer_id = self.request.query_params.get('id')
     
     if(customer_id is not None):
       query_set = query_set.filter(id = customer_id)

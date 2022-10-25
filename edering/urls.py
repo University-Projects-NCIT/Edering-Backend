@@ -2,7 +2,7 @@ from rest_framework.routers import DefaultRouter,SimpleRouter
 from django.urls import path, include
 from .views import(
   HomePageView,
-  HotelViewSet,
+  ProviderViewSet,
   CustomerViewSet,
   FoodCategoryViewSet,
   MenuViewSet,
@@ -13,7 +13,7 @@ from .views import(
 
 router = DefaultRouter()
 
-router.register(f'hotels',HotelViewSet, 'Hotel')
+router.register(f'providers',ProviderViewSet, 'Hotel')
 router.register(f'customers',CustomerViewSet, 'Customer')
 router.register(f'food_categories',FoodCategoryViewSet, 'FoodCategory')
 router.register(f'menus',MenuViewSet, 'Menu')

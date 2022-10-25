@@ -2,7 +2,7 @@ from asyncore import read
 from pyexpat import model
 from rest_framework import serializers 
 from .models import(
-  Hotel,
+  Provider,
   Customer,
   FoodCategory,
   Menu,
@@ -11,26 +11,24 @@ from .models import(
   UserScan
 )
 
-class HotelSerializer(serializers.ModelSerializer):
-  class Meta:
-    model = Hotel
-    fields = '__all__'
-
 class CustomerSerializer(serializers.ModelSerializer):
   class Meta:
     model = Customer 
     fields = '__all__'
-
-class FoodCategorySerializer(serializers.ModelSerializer):
-  class Meta:
-    model = FoodCategory
-    fields = '__all__'
+    depth = 2 
 
 class MenuSerializer(serializers.ModelSerializer):
   class Meta:
     model = Menu
     fields = '__all__'
     depth = 2 
+
+class FoodCategorySerializer(serializers.ModelSerializer):
+  menus = MenuSerializer(many = True, read_only = True)
+  class Meta:
+    model = FoodCategory
+    fields = ['id','c_name','image_id','menus']
+    depth = 3
 
 class OrderSerializer(serializers.ModelSerializer):
   # customer_id = CustomerSerializer(many = True, read_only = True)
@@ -40,6 +38,7 @@ class OrderSerializer(serializers.ModelSerializer):
   class Meta:
     model = Order
     fields = '__all__'
+    depth = 2 
 
 class CommentSerializer(serializers.ModelSerializer):
   # comment_from = CustomerSerializer(many = True, read_only = True)
@@ -55,3 +54,12 @@ class UserScanSerializer(serializers.ModelSerializer):
   class Meta:
     model = UserScan
     fields =["id","scan_url","date_time","user_id"]
+    depth = 2 
+
+class ProviderSerializer(serializers.ModelSerializer):
+  food_categories = FoodCategorySerializer(many = True,read_only=True)
+  
+  class Meta:
+    model = Provider
+    fields = ['id','name','location','image_id','known_for','rating','open_time','close_time','created_at','food_categories']
+    depth = 2 

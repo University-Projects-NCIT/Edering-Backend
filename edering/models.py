@@ -1,6 +1,9 @@
+from ast import Delete
+from tkinter import CASCADE
 from django.db import models
 
-class Hotel(models.Model):
+
+class Provider(models.Model):
   id = models.CharField(
     verbose_name = ("hotel id "),
     help_text = ("Required and Unique"),
@@ -23,7 +26,7 @@ class Hotel(models.Model):
     unique= False 
   )
 
-  image_uri_id = models.URLField(
+  image_id = models.URLField(
       verbose_name = ("Hotel Profile Image Url"),
       help_text=("https://my_image.png"),
       max_length=500
@@ -55,10 +58,73 @@ class Hotel(models.Model):
     unique= False 
   )
 
-  account_create = models.CharField(
+  created_at = models.CharField(
     verbose_name=("Account created timestamp"),
     help_text= ("Timesamp take default timestamp"),
     max_length= 300 
+  )
+
+  # foods_categroies = models.ForeignKey(
+  #   FoodCategory,
+  #   related_name="foods",
+  #   on_delete=models.CASCADE,
+  #   verbose_name=("foods"),
+  # )
+
+class FoodCategory(models.Model):
+  id = models.CharField(
+    verbose_name = ("FoodCategory id "),
+    help_text = ("Required and Unique"),
+    unique = True,
+    max_length = 100,
+    primary_key = True,
+  )
+  
+  c_name = models.CharField(
+    verbose_name = ("Category Name"),
+    help_text = ("Required"),
+    max_length = 300,
+  )
+
+  image_id = models.URLField(
+    verbose_name = ("Food Image Url"),
+    help_text=("https://my_image.png"),
+    max_length=500
+  )
+  
+  provider = models.ForeignKey(
+    Provider,
+    related_name="food_categories",
+    on_delete=models.CASCADE,
+    verbose_name=("provider"),
+  )
+
+class Menu(models.Model):
+  id = models.CharField(
+    verbose_name = ("Menu id "),
+    help_text = ("Required and Unique"),
+    unique = True,
+    max_length = 100,
+    primary_key = True,
+  )
+
+  name = models.CharField(
+    verbose_name = ("Menu item name"),
+    help_text = ("Required"),
+    max_length = 100,
+  )
+
+  price = models.CharField(
+    verbose_name = ("Menu Item price"),
+    help_text = ("Required and Unique"),
+    max_length = 100,
+  )
+
+  foodCategory = models.ForeignKey(
+    FoodCategory,
+    related_name = "menus",
+    on_delete = models.CASCADE,
+    verbose_name = ('Food Category')
   )
 
 class Customer(models.Model):
@@ -77,54 +143,6 @@ class Customer(models.Model):
     max_length = 100,
   )
 
-class FoodCategory(models.Model):
-  id = models.CharField(
-    verbose_name = ("FoodCategory id "),
-    help_text = ("Required and Unique"),
-    unique = True,
-    max_length = 100,
-    primary_key = True,
-  )
-  c_name = models.CharField(
-    verbose_name = ("Category Name"),
-    help_text = ("Required"),
-    max_length = 300,
-  )
-
-  image_uri_id = models.URLField(
-    verbose_name = ("Food Image Url"),
-    help_text=("https://my_image.png"),
-    max_length=500
-  )
-
-class Menu(models.Model):
-  id = models.CharField(
-    verbose_name = ("Menu id "),
-    help_text = ("Required and Unique"),
-    unique = True,
-    max_length = 100,
-    primary_key = True,
-  )
-
-  category = models.ForeignKey( 
-      FoodCategory,
-      related_name="menu",
-      on_delete=models.CASCADE,
-      verbose_name=("Food Category id"), 
-  )
-
-  name = models.CharField(
-    verbose_name = ("Menu item name"),
-    help_text = ("Required"),
-    max_length = 100,
-  )
-
-  price = models.CharField(
-    verbose_name = ("Menu Item price"),
-    help_text = ("Required and Unique"),
-    max_length = 100,
-  )
-
 class Comment(models.Model):
   id = models.CharField(
     verbose_name = ("Comment Id"),
@@ -133,6 +151,7 @@ class Comment(models.Model):
     max_length = 100,
     primary_key = True,
   )
+
   comment_from = models.ForeignKey( 
       Customer,
       related_name="comment_comment_from",
@@ -141,7 +160,7 @@ class Comment(models.Model):
   )
 
   comment_to = models.ForeignKey( 
-      Hotel,
+      Provider,
       related_name="comment_comment_to",
       on_delete=models.CASCADE,
       verbose_name=("Comment Hotel"), 
@@ -151,7 +170,7 @@ class Comment(models.Model):
     verbose_name= "Comment conent",
   )
 
-  date_time = models.DateTimeField(
+  created_at = models.DateTimeField(
     verbose_name=("Commented at"),
     auto_now_add=True,
     editable = False
@@ -166,6 +185,18 @@ class Order(models.Model):
     primary_key = True,
   )
 
+  food_name = models.CharField(
+    verbose_name = ("food name "),
+    help_text = ("Not Required"),
+    unique = False,
+    max_length = 255,
+  )
+
+  food_count = models.IntegerField(
+    verbose_name = ("food count "),
+    help_text = ("Not Required"),
+  )
+
   order_from = models.ForeignKey( 
       Customer,
       related_name="customer_id",
@@ -174,7 +205,7 @@ class Order(models.Model):
   )
 
   order_to = models.ForeignKey( 
-      Hotel,
+      Provider,
       related_name= "hotel_id",
       on_delete=models.CASCADE,
       verbose_name=("Ordered Hotel"), 
@@ -185,13 +216,6 @@ class Order(models.Model):
     auto_now_add=True,
     editable = False
   )
-
-  # food = models.ForeignKey( 
-  #     Menu,
-  #     related_name="menu_id",
-  #     on_delete=models.CASCADE,
-  #     verbose_name=("Ordered food item"), 
-  # )
 
   delivered_status = models.BooleanField(
     verbose_name=("Served status"),

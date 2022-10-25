@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import(
-  Hotel,
+  Provider,
   Customer,
   FoodCategory,
   Menu,
@@ -10,18 +10,19 @@ from .models import(
   UserScan
 )
 
-@admin.register(Hotel)
-class HotelAdmin(admin.ModelAdmin):
+@admin.register(Provider)
+class ProviderAdmin(admin.ModelAdmin):
+    #list_display = __all__
     list_display = [
       "id",
       "name",
       "location",
-      "image_uri_id",
+      "image_id",
       "known_for",
       "rating",
       "open_time",
       "close_time",
-      "account_create",
+      "created_at",
     ]
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
@@ -35,13 +36,13 @@ class FoodCategoryAdmin(admin.ModelAdmin):
     list_display = [
       "id",
       "c_name",
-      "image_uri_id"
+      "image_id"
     ]
+    
 @admin.register(Menu)
 class MenuAdmin(admin.ModelAdmin):
     list_display = [
       "id",
-      "category",
       "name",
       "price"
     ]
@@ -64,7 +65,7 @@ class CommentAdmin(admin.ModelAdmin):
       "comment_from",
       "comment_to",
       "content",
-      "date_time"
+      "created_at"
     ]
 
 @admin.register(UserScan)
