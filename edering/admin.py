@@ -28,7 +28,6 @@ class ProviderAdmin(admin.ModelAdmin):
 class CustomerAdmin(admin.ModelAdmin):
     list_display = [
       "id",
-      "auth_id",
     ]
 
 @admin.register(FoodCategory)
@@ -55,7 +54,7 @@ class OrderAdmin(admin.ModelAdmin):
       # "order_to",
       "order_date_time",
       # "food",
-      "delivered_status"
+      "order_status"
     ]
 
 @admin.register(Comment)
@@ -74,5 +73,5 @@ class UserScanAdmin(admin.ModelAdmin):
       "id",
       "scan_url",
       "date_time",
-      "user_id"
+      "customer_id"
     ]
