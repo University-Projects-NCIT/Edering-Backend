@@ -93,10 +93,10 @@ class Rating(models.Model):
     decimal_places = 3  
   )
 
-  created_at = models.CharField(
+  created_at = models.DateTimeField(
     verbose_name =('date created_at'),
     help_text = ('time stamp value'),
-    max_length = 255 
+    auto_now_add=True,
   )
 
   from_id = models.ForeignKey(
@@ -108,7 +108,7 @@ class Rating(models.Model):
 
   to_id = models.ForeignKey(
     Provider,
-    related_name = "rating_to",
+    related_name = "ratings",
     on_delete = models.CASCADE,
     verbose_name=('Provider')
   )
@@ -187,7 +187,7 @@ class Comment(models.Model):
 
   comment_to = models.ForeignKey( 
       Provider,
-      related_name="comment_comment_to",
+      related_name="comments",
       on_delete=models.CASCADE,
       verbose_name=("Comment Hotel"), 
   )

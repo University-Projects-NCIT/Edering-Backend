@@ -7,6 +7,7 @@ from .models import(
   Menu,
   Order,
   Comment,
+  Rating,
   UserScan
 )
 
@@ -26,6 +27,12 @@ class ProviderAdmin(admin.ModelAdmin):
     ]
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
+    list_display = [
+      "id",
+    ]
+
+@admin.register(Rating)
+class RatingAdmin(admin.ModelAdmin):
     list_display = [
       "id",
     ]

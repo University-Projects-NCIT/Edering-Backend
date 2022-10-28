@@ -8,7 +8,8 @@ from .views import(
   MenuViewSet,
   OrderViewSet,
   CommentViewSet,
-  UserScanViewSet
+  UserScanViewSet,
+  RatingViewSet
 )
 
 router = DefaultRouter()
@@ -20,6 +21,7 @@ router.register(f'menus',MenuViewSet, 'Menu')
 router.register(f'orders',OrderViewSet, 'Order')
 router.register(f'comments',CommentViewSet, 'Comment')
 router.register(f'user_scans',UserScanViewSet, 'UserScan')
+router.register(f'ratings',RatingViewSet, 'Rating')
 
 urlpatterns = [
     path('', HomePageView.as_view()),
