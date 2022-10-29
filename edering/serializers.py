@@ -66,5 +66,5 @@ class ProviderSerializer(serializers.ModelSerializer):
   
   class Meta:
     model = Provider
-    fields = ['id','name','location','image_id','known_for','rating','open_time','close_time','created_at','food_categories','comments','ratings','provider_order']
+    fields = ['id','name','location','image_id','known_for','open_time','close_time','created_at','food_categories','comments','ratings','provider_order']
     depth = 2 

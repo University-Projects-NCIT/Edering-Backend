@@ -20,7 +20,6 @@ class ProviderAdmin(admin.ModelAdmin):
       "location",
       "image_id",
       "known_for",
-      "rating",
       "open_time",
       "close_time",
       "created_at",

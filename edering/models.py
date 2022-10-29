@@ -41,11 +41,6 @@ class Provider(models.Model):
     unique= False 
   )
 
-  rating = models.FloatField(
-    verbose_name=("Provider Rating"),
-    help_text=("4.5"),
-  )
-
   open_time = models.CharField(
     verbose_name=("Provider open time "),
     help_text=("10:00 AM"),
@@ -156,10 +151,11 @@ class Menu(models.Model):
     max_length = 100,
   )
 
-  price = models.CharField(
+  price = models.DecimalField(
     verbose_name = ("Menu Item price"),
-    help_text = ("Required and Unique"),
-    max_length = 100,
+    help_text = ("Decimal Digit"),
+    max_digits = 10,
+    decimal_places = 3 
   )
 
   foodCategory = models.ForeignKey(
