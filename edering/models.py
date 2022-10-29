@@ -28,10 +28,10 @@ class Provider(models.Model):
     unique= False 
   )
 
-  image_id = models.URLField(
+  image_id = models.CharField(
       verbose_name = ("Provider Profile Image Url"),
       help_text=("https://my_image.png"),
-      max_length=500
+      max_length= 255
   )
 
   known_for = models.CharField(
