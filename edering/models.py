@@ -70,6 +70,24 @@ class Customer(models.Model):
     primary_key = True,
   )
 
+  name = models.CharField(
+    verbose_name = ("Customer name"),
+    help_text = ("String name"),
+    max_length = 255,
+  )
+
+  email = models.CharField(
+    verbose_name = ("Customer email"),
+    help_text = ("String email"),
+    max_length = 255,
+  )
+
+  profile_image = models.CharField(
+    verbose_name = ("Customer profile Image"),
+    help_text = ("String url of image"),
+    max_length = 255,
+  )
+
   # orders -> Foreign 
   # user_scan -> Foreign 
 
@@ -156,6 +174,12 @@ class Menu(models.Model):
     help_text = ("Decimal Digit"),
     max_digits = 10,
     decimal_places = 3 
+  )
+
+  image_url = models.CharField(
+    verbose_name = ("Menu Image"),
+    help_text = ("String url of image"),
+    max_length = 255,
   )
 
   foodCategory = models.ForeignKey(

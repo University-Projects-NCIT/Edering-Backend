@@ -31,13 +31,13 @@ class CustomerSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Customer 
-    fields = ['id','customer_order','user_scan']
+    fields = ['id','name','email','profile_image','customer_order','user_scan']
     depth = 2 
 
 class MenuSerializer(serializers.ModelSerializer):
   class Meta:
     model = Menu
-    fields = ['id','name','price']
+    fields = ['id','name','price','image_url']
     depth = 2 
 
 class FoodCategorySerializer(serializers.ModelSerializer):

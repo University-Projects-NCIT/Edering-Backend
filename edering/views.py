@@ -83,6 +83,12 @@ class FoodCategoryViewSet(viewsets.ModelViewSet):
     query_set = FoodCategory.objects.all()
     id = self.request.query_params.get('id')
     provider_id = self.request.query_params.get('provider_id')
+    search_key = self.request.query_params.get('search')
+
+    if(search_key is not None):
+      query_set = query_set.filter(
+        Q(c_name__icontains= search_key) 
+      )
 
     if(provider_id is not None):
       query_set = query_set.filter(provider = provider_id)
@@ -101,6 +107,12 @@ class MenuViewSet(viewsets.ModelViewSet):
     """
     query_set = Menu.objects.all()
     id = self.request.query_params.get('id')
+    search_key = self.request.query_params.get('search')
+
+    if(search_key is not None):
+      query_set = query_set.filter(
+        Q(name__icontains= search_key) 
+      )
     if(id is not None):
       query_set = query_set.filter(id = id)
     return query_set  
