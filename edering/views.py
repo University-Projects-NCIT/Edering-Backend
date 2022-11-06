@@ -150,10 +150,15 @@ class CommentViewSet(viewsets.ModelViewSet):
     """
     query_set = Comment.objects.all()
     id = self.request.query_params.get('id')
+    provider_id = self.request.query_params.get('provider_id')
+
+    if(provider_id is not None):
+      query_set = query_set.filter(comment_to = provider_id)
 
     if(id is not None):
       query_set = query_set.filter(id = id)
     return query_set 
+
 
 class RatingViewSet(viewsets.ModelViewSet):
   serializer_class = RatingSerializer
