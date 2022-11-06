@@ -6,6 +6,8 @@ from django.views.generic import TemplateView
 from datetime import date
 from datetime import datetime
 from django.db.models import Q
+from rest_framework import status
+from rest_framework.response import Response
 
 from .serializers import(
   ProviderSerializer,
@@ -97,6 +99,16 @@ class FoodCategoryViewSet(viewsets.ModelViewSet):
       query_set = query_set.filter(id = id)
     return query_set
 
+  def create(self, request, *args, **kwargs):
+    prvId = request.data.get('provider')
+    provider = Provider.objects.filter(id = prvId)[0]
+
+    serializer = self.get_serializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    serializer.save(provider = provider)
+    headers = self.get_success_headers(serializer.data)
+    return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
 class MenuViewSet(viewsets.ModelViewSet):
   serializer_class = MenuSerializer
   permission_classes = [permissions.AllowAny]
@@ -113,9 +125,20 @@ class MenuViewSet(viewsets.ModelViewSet):
       query_set = query_set.filter(
         Q(name__icontains= search_key) 
       )
+
     if(id is not None):
       query_set = query_set.filter(id = id)
     return query_set  
+  
+  def create(self, request, *args, **kwargs):
+    foodCategoryId = request.data.get('foodCategory')
+    provider = FoodCategory.objects.filter(id = foodCategoryId)[0]
+
+    serializer = self.get_serializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    serializer.save(foodCategory = provider)
+    headers = self.get_success_headers(serializer.data)
+    return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 class OrderViewSet(viewsets.ModelViewSet):
   serializer_class = OrderSerializer
@@ -140,11 +163,23 @@ class OrderViewSet(viewsets.ModelViewSet):
       query_set = query_set.filter(id = id)
     return query_set 
 
+  def create(self, request, *args, **kwargs):
+    order_from_id = request.data.get('order_from')
+    order_to_id = request.data.get('order_to')
+    customer = Customer.objects.filter(id = order_from_id)[0]
+    provider = Provider.objects.filter(id = order_to_id)[0]
+
+    serializer = self.get_serializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    serializer.save(order_from= customer, order_to= provider)
+    headers = self.get_success_headers(serializer.data)
+    return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
 class CommentViewSet(viewsets.ModelViewSet):
   serializer_class = CommentSerializer
   permission_classes = [permissions.AllowAny]
 
-  def get_queryset(self):
+  def get_queryset(self, serializers):
     """
     end point comments/id=skjdhgsd454
     """
@@ -158,6 +193,18 @@ class CommentViewSet(viewsets.ModelViewSet):
     if(id is not None):
       query_set = query_set.filter(id = id)
     return query_set 
+  
+  def create(self, request, *args, **kwargs):
+    comment_from = request.data.get('comment_from')
+    comment_to = request.data.get('comment_to')
+    customer = Customer.objects.filter(id = comment_from)[0]
+    provider = Provider.objects.filter(id = comment_to)[0]
+
+    serializer = self.get_serializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    serializer.save(comment_from = customer, comment_to = provider)
+    headers = self.get_success_headers(serializer.data)
+    return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class RatingViewSet(viewsets.ModelViewSet):
@@ -179,6 +226,23 @@ class RatingViewSet(viewsets.ModelViewSet):
       query_set = query_set.filter(id = id)
     return query_set 
 
+  def create(self, request, *args, **kwargs):
+    # import pdb;
+    # pdb.set_trace()
+    rating_from = request.data.get('rating_from')
+    rating_to = request.data.get('rating_to')
+    customer = Customer.objects.filter(id = rating_from)[0]
+    provider = Provider.objects.filter(id = rating_to)[0]
+
+
+    serializer = self.get_serializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    # self.perform_create(serializer)
+    serializer.save(rating_from = customer, rating_to = provider)
+    headers = self.get_success_headers(serializer.data)
+    return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
 class UserScanViewSet(viewsets.ModelViewSet):
   serializer_class = UserScanSerializer
   permission_classes = [permissions.AllowAny]
@@ -197,3 +261,13 @@ class UserScanViewSet(viewsets.ModelViewSet):
     if(id is not None):
       query_set = query_set.filter(id = id)
     return query_set 
+
+  def create(self, request, *args, **kwargs):
+    customerId = request.data.get('customer_id')
+    customer = Customer.objects.filter(id = customerId)[0]
+
+    serializer = self.get_serializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    serializer.save(customer_id = customer)
+    headers = self.get_success_headers(serializer.data)
+    return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

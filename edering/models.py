@@ -1,7 +1,5 @@
 from ast import Delete
-from pyexpat import model
 from tabnanny import verbose
-from django.db.models.deletion import CASCADE
 from django.db import models
 
 
@@ -109,29 +107,32 @@ class Rating(models.Model):
   created_at = models.DateTimeField(
     verbose_name =('date created_at'),
     help_text = ('time stamp value'),
-    auto_now_add=True,
+    auto_now_add=True, 
   )
 
-  from_id = models.ForeignKey(
+  rating_from = models.ForeignKey(
     Customer,
     related_name="rating_from",
     on_delete=models.CASCADE,
     verbose_name=("Customer"),
+    # blank = True, 
+    # null = True 
   )
 
-  to_id = models.ForeignKey(
+  rating_to = models.ForeignKey(
     Provider,
     related_name = "ratings",
     on_delete = models.CASCADE,
-    verbose_name=('Provider')
+    verbose_name=('Provider'),
+    # blank = True,
+    # null = True
   )
 
 class FoodCategory(models.Model):
-  id = models.CharField(
-    verbose_name = ("FoodCategory id "),
-    help_text = ("Required and Unique"),
+  id = models.AutoField(
+    verbose_name = ('FoodCategory id'),
+    help_text = ('auto increment, int id'),
     unique = True,
-    max_length = 100,
     primary_key = True,
   )
   
@@ -155,11 +156,10 @@ class FoodCategory(models.Model):
   )
 
 class Menu(models.Model):
-  id = models.CharField(
-    verbose_name = ("Menu id "),
-    help_text = ("Required and Unique"),
+  id = models.AutoField(
+    verbose_name = ('Menu id'),
+    help_text = ('auto increment, int id'),
     unique = True,
-    max_length = 100,
     primary_key = True,
   )
 
@@ -190,18 +190,17 @@ class Menu(models.Model):
   )
 
 class Comment(models.Model):
-  id = models.CharField(
-    verbose_name = ("Comment Id"),
-    help_text = ("Required and Unique"),
+  id = models.AutoField(
+    verbose_name = ('Comment id'),
+    help_text = ('auto increment, int id'),
     unique = True,
-    max_length = 255,
     primary_key = True,
   )
 
   comment_from = models.ForeignKey( 
       Customer,
       related_name="comment_comment_from",
-      on_delete=models.CASCADE,
+      on_delete= models.CASCADE,
       verbose_name=("Comment customer"), 
   )
 
@@ -223,11 +222,10 @@ class Comment(models.Model):
   )
 
 class Order(models.Model):
-  id = models.CharField(
-    verbose_name = ("order id "),
-    help_text = ("Required and Unique"),
+  id = models.AutoField(
+    verbose_name = ('Order id'),
+    help_text = ('auto increment, int id'),
     unique = True,
-    max_length = 100,
     primary_key = True,
   )
 
@@ -284,10 +282,10 @@ class UserScan(models.Model):
     primary_key = True,
   )
 
-  scan_url = models.URLField(
+  scan_url = models.CharField(
     verbose_name = ("Scanned Url"),
     help_text=("https://myhotel.com/tara_hotel/account"),
-    max_length=500
+    max_length=255
   )
 
   date_time = models.DateTimeField(

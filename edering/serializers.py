@@ -1,6 +1,8 @@
 from asyncore import read
 from pyexpat import model
 from rest_framework import serializers 
+from rest_framework.fields import CurrentUserDefault
+
 from .models import(
   Provider,
   Customer,
@@ -53,6 +55,7 @@ class CommentSerializer(serializers.ModelSerializer):
     depth = 2 
 
 class RatingSerializer(serializers.ModelSerializer):
+
   class Meta:
     model = Rating
     fields = '__all__'
