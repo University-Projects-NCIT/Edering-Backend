@@ -114,18 +114,14 @@ class Rating(models.Model):
     Customer,
     related_name="rating_from",
     on_delete=models.CASCADE,
-    verbose_name=("Customer"),
-    # blank = True, 
-    # null = True 
+    verbose_name=("Customer")
   )
 
   rating_to = models.ForeignKey(
     Provider,
     related_name = "ratings",
     on_delete = models.CASCADE,
-    verbose_name=('Provider'),
-    # blank = True,
-    # null = True
+    verbose_name=('Provider')
   )
 
 class FoodCategory(models.Model):

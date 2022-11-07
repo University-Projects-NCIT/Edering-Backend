@@ -179,7 +179,7 @@ class CommentViewSet(viewsets.ModelViewSet):
   serializer_class = CommentSerializer
   permission_classes = [permissions.AllowAny]
 
-  def get_queryset(self, serializers):
+  def get_queryset(self):
     """
     end point comments/id=skjdhgsd454
     """
@@ -220,7 +220,7 @@ class RatingViewSet(viewsets.ModelViewSet):
     provider_id = self.request.query_params.get('provider_id')
 
     if(provider_id is not None):
-      query_set = query_set.filter(to_id = provider_id)
+      query_set = query_set.filter(rating_to = provider_id)
 
     if(id is not None):
       query_set = query_set.filter(id = id)
@@ -233,7 +233,6 @@ class RatingViewSet(viewsets.ModelViewSet):
     rating_to = request.data.get('rating_to')
     customer = Customer.objects.filter(id = rating_from)[0]
     provider = Provider.objects.filter(id = rating_to)[0]
-
 
     serializer = self.get_serializer(data=request.data)
     serializer.is_valid(raise_exception=True)
